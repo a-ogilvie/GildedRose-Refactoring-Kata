@@ -10,20 +10,19 @@ class Shop {
   constructor(items=[]) {
     this.items = items;
   }
-  
+ 
   updateQuality() {
     this.items.forEach(item => {
-      if (item.name === 'normal') {
-        if (item.quality > 0) {
-          if (item.sellIn > 0)
-            item.quality--;
-          if (item.sellIn <= 0)
-            item.quality -= 2;
-          }
-        item.sellIn--;
-        return
-      };
-        // reduce quality for normal items
+      switch (item.name) {
+        case 'Aged Brie':
+          updateBrie(item);
+          return;
+        case 'normal':
+          updateNormal(item);
+          return;
+      }
+
+      // reduce quality for normal items
         if (item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert') {
           if (item.quality > 0) {
             if (item.name != 'Sulfuras, Hand of Ragnaros') {
@@ -82,5 +81,25 @@ class Shop {
     });
 
     return this.items;
+  }
+}
+
+function updateNormal(item) {
+  item.sellIn--;
+  if (item.quality === 0) return;
+
+  item.quality--;
+  if (item.sellIn < 0) {
+    item.quality--;
+  }
+}
+
+function updateBrie(item) {
+  item.sellIn--;
+  if (item.quality >= 50) return;
+
+  item.quality++;
+  if (item.sellIn < 0) {
+    item.quality++;
   }
 }
