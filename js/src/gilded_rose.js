@@ -6,32 +6,8 @@ class Item {
   }
 }
 
-class Shop {
-  constructor(items=[]) {
-    this.items = items;
-  }
- 
-  updateQuality() {
-    this.items.forEach(item => {
-      switch (item.name) {
-        case 'Aged Brie':
-          this.updateBrie(item);
-          return;
-        case 'Sulfuras, Hand of Ragnaros':
-          return;
-        case 'Backstage passes to a TAFKAL80ETC concert':
-          this.updateBackstage(item);
-          return;
-        default:
-          this.updateNormal(item);
-          return;
-      }
-    });
-
-    return this.items;
-  }
-
-  updateNormal(item) {
+class Normal {
+  update(item) {
     item.sellIn--;
     if (item.quality === 0) return;
   
@@ -40,8 +16,10 @@ class Shop {
       item.quality--;
     }
   }
+}
 
-  updateBrie(item) {
+class Brie {
+  update(item) {
     item.sellIn--;
     if (item.quality >= 50) return;
   
@@ -50,8 +28,16 @@ class Shop {
       item.quality++;
     }
   }
+}
 
-  updateBackstage(item) {
+class Sulfuras {
+  update(item) {
+
+  }
+}
+
+class Backstage {
+  update(item) {
     item.sellIn--;
     if (item.quality >= 50) return;
     
@@ -68,4 +54,31 @@ class Shop {
       item.quality++;
     }
   }
+}
+
+class Shop {
+  constructor(items=[]) {
+    this.items = items;
+  }
+
+  getItemType(item) {
+    switch (item.name) {
+      case 'Aged Brie':
+        return new Brie();
+      case 'Sulfuras, Hand of Ragnaros':
+        return new Sulfuras();
+      case 'Backstage passes to a TAFKAL80ETC concert':
+        return new Backstage();
+      default:
+        return new Normal();
+    }
+  }
+ 
+  updateQuality() {
+    this.items.forEach(item => {
+      this.getItemType(item).update(item);
+    });
+    return this.items;
+  }
+
 }
