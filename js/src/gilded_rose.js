@@ -115,5 +115,20 @@ function updateSulfuras(item) {
 }
 
 function updateBackstage(item) {
+  item.sellIn--;
+  if (item.quality >= 50) return;
   
+  if (item.sellIn < 0) {
+    item.quality = 0;
+    return;
+  }
+
+  item.quality++;
+  if (item.sellIn < 10) {
+    item.quality++;
+  }
+  if (item.sellIn < 5) {
+    item.quality++;
+  }
+
 }
