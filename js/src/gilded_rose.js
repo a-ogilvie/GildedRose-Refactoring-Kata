@@ -17,6 +17,12 @@ class Shop {
         case 'Aged Brie':
           updateBrie(item);
           return;
+        case 'Sulfuras, Hand of Ragnaros':
+          updateSulfuras(item);
+          return;
+        case 'Backstage passes to a TAFKAL80ETC concert':
+          updateBackstage(item);
+          return;
         case 'normal':
           updateNormal(item);
           return;
@@ -102,4 +108,12 @@ function updateBrie(item) {
   if (item.sellIn < 0) {
     item.quality++;
   }
+}
+
+function updateSulfuras(item) {
+
+}
+
+function updateBackstage(item) {
+  
 }
