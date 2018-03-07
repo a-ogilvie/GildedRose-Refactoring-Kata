@@ -13,7 +13,16 @@ class Shop {
   
   updateQuality() {
     this.items.forEach(item => {
-      //if (item.name === 'normal') return;
+      if (item.name === 'normal') {
+        if (item.quality > 0) {
+          if (item.sellIn > 0)
+            item.quality--;
+          if (item.sellIn <= 0)
+            item.quality -= 2;
+          }
+        item.sellIn--;
+        return
+      };
         // reduce quality for normal items
         if (item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert') {
           if (item.quality > 0) {
