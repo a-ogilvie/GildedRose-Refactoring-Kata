@@ -15,57 +15,57 @@ class Shop {
     this.items.forEach(item => {
       switch (item.name) {
         case 'Aged Brie':
-          updateBrie(item);
+          this.updateBrie(item);
           return;
         case 'Sulfuras, Hand of Ragnaros':
           return;
         case 'Backstage passes to a TAFKAL80ETC concert':
-          updateBackstage(item);
+          this.updateBackstage(item);
           return;
         default:
-          updateNormal(item);
+          this.updateNormal(item);
           return;
       }
     });
 
     return this.items;
   }
-}
 
-function updateNormal(item) {
-  item.sellIn--;
-  if (item.quality === 0) return;
-
-  item.quality--;
-  if (item.sellIn < 0) {
-    item.quality--;
-  }
-}
-
-function updateBrie(item) {
-  item.sellIn--;
-  if (item.quality >= 50) return;
-
-  item.quality++;
-  if (item.sellIn < 0) {
-    item.quality++;
-  }
-}
-
-function updateBackstage(item) {
-  item.sellIn--;
-  if (item.quality >= 50) return;
+  updateNormal(item) {
+    item.sellIn--;
+    if (item.quality === 0) return;
   
-  if (item.sellIn < 0) {
-    item.quality = 0;
-    return;
+    item.quality--;
+    if (item.sellIn < 0) {
+      item.quality--;
+    }
   }
 
-  item.quality++;
-  if (item.sellIn < 10) {
+  updateBrie(item) {
+    item.sellIn--;
+    if (item.quality >= 50) return;
+  
     item.quality++;
+    if (item.sellIn < 0) {
+      item.quality++;
+    }
   }
-  if (item.sellIn < 5) {
+
+  updateBackstage(item) {
+    item.sellIn--;
+    if (item.quality >= 50) return;
+    
+    if (item.sellIn < 0) {
+      item.quality = 0;
+      return;
+    }
+  
     item.quality++;
+    if (item.sellIn < 10) {
+      item.quality++;
+    }
+    if (item.sellIn < 5) {
+      item.quality++;
+    }
   }
 }
