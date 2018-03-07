@@ -17,16 +17,6 @@ describe("Gilded Rose", () => {
       expect(items[0].quality).toEqual(1);
     });
 
-    it('should lower the sellIn and quality values by one per day',() => {
-      const gildedRose = new Shop([ new Item("normal", 3, 3) ]);
-      const items = gildedRose.updateQuality();
-      expect(items[0].sellIn).toEqual(2);
-      expect(items[0].quality).toEqual(2);
-      gildedRose.updateQuality();
-      expect(items[0].sellIn).toEqual(1);
-      expect(items[0].quality).toEqual(1);
-    });
-
     it('should lower the quality twice as fast once sellIn date has passed', () => {
       const gildedRose = new Shop([ new Item("normal", 1, 5) ]);
       const items = gildedRose.updateQuality();
@@ -147,6 +137,44 @@ describe("Gilded Rose", () => {
       gildedRose.updateQuality();
       expect(items[0].sellIn).toEqual(3);
       expect(items[0].quality).toEqual(3);
+    });
+  });
+
+  describe("Conjured Items", () => {
+    it("should create a conjured item", () => {
+      const gildedRose = new Shop([ new Item("Conjured", 0, 0) ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].name).toEqual("Conjured");
+    });
+
+    it('should lower the sellIn and quality values by one and two per day',() => {
+      const gildedRose = new Shop([ new Item("Conjured", 3, 10) ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(2);
+      expect(items[0].quality).toEqual(8);
+      gildedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(1);
+      expect(items[0].quality).toEqual(6);
+    });
+
+    it('should lower the quality twice as fast once sellIn date has passed', () => {
+      const gildedRose = new Shop([ new Item("Conjured", 1, 10) ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(0);
+      expect(items[0].quality).toEqual(8);
+      gildedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(-1);
+      expect(items[0].quality).toEqual(4);
+    });
+
+    it('should never lower the quality below zero', () => {
+      const gildedRose = new Shop([ new Item("Conjured", 10, 2) ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(9);
+      expect(items[0].quality).toEqual(0);
+      gildedRose.updateQuality();
+      expect(items[0].sellIn).toEqual(8);
+      expect(items[0].quality).toEqual(0);
     });
   });
 });

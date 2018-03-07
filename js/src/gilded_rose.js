@@ -32,7 +32,7 @@ class Brie {
 
 class Sulfuras {
   update(item) {
-
+    // do nothing
   }
 }
 
@@ -56,6 +56,18 @@ class Backstage {
   }
 }
 
+class Conjured {
+  update(item) {
+    item.sellIn--;
+    if (item.quality === 0) return;
+  
+    item.quality -= 2;
+    if (item.sellIn < 0) {
+      item.quality -= 2;
+    }
+  }
+}
+
 class Shop {
   constructor(items=[]) {
     this.items = items;
@@ -69,6 +81,8 @@ class Shop {
         return new Sulfuras();
       case 'Backstage passes to a TAFKAL80ETC concert':
         return new Backstage();
+      case 'Conjured':
+        return new Conjured();
       default:
         return new Normal();
     }
