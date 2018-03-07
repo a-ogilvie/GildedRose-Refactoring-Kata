@@ -18,7 +18,6 @@ class Shop {
           updateBrie(item);
           return;
         case 'Sulfuras, Hand of Ragnaros':
-          updateSulfuras(item);
           return;
         case 'Backstage passes to a TAFKAL80ETC concert':
           updateBackstage(item);
@@ -51,10 +50,6 @@ function updateBrie(item) {
   if (item.sellIn < 0) {
     item.quality++;
   }
-}
-
-function updateSulfuras(item) {
-
 }
 
 function updateBackstage(item) {
