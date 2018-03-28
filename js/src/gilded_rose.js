@@ -71,22 +71,19 @@ class Conjured {
 class Shop {
   constructor(items=[]) {
     this.items = items;
+    this.itemTypes = {
+      'Aged Brie': Brie,
+      'Sulfuras, Hand of Ragnaros': Sulfuras,
+      'Backstage passes to a TAFKAL80ETC concert': Backstage,
+      'Conjured': Conjured,
+    }
   }
 
   getItemType(item) {
-    switch (item.name) {
-      case 'Aged Brie':
-        return new Brie();
-      case 'Sulfuras, Hand of Ragnaros':
-        return new Sulfuras();
-      case 'Backstage passes to a TAFKAL80ETC concert':
-        return new Backstage();
-      case 'Conjured':
-        return new Conjured();
-      default:
-        return new Normal();
-    }
+    if (this.itemTypes[item.name]) return new this.itemTypes[item.name]();
+    else return new Normal();
   }
+  
  
   updateQuality() {
     this.items.forEach(item => {
