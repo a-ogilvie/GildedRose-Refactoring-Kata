@@ -6,64 +6,64 @@ class Item {
   }
 }
 
-class Normal {
-  update(item) {
-    item.sellIn--;
-    if (item.quality === 0) return;
+class Normal extends Item {
+  update() {
+    this.sellIn--;
+    if (this.quality === 0) return;
   
-    item.quality--;
-    if (item.sellIn < 0) {
-      item.quality--;
+    this.quality--;
+    if (this.sellIn < 0) {
+      this.quality--;
     }
   }
 }
 
-class Brie {
-  update(item) {
-    item.sellIn--;
-    if (item.quality >= 50) return;
+class Brie extends Item {
+  update() {
+    this.sellIn--;
+    if (this.quality >= 50) return;
   
-    item.quality++;
-    if (item.sellIn < 0) {
-      item.quality++;
+    this.quality++;
+    if (this.sellIn < 0) {
+      this.quality++;
     }
   }
 }
 
-class Sulfuras {
-  update(item) {
+class Sulfuras extends Item {
+  update() {
     // do nothing
   }
 }
 
-class Backstage {
-  update(item) {
-    item.sellIn--;
-    if (item.quality >= 50) return;
+class Backstage extends Item {
+  update() {
+    this.sellIn--;
+    if (this.quality >= 50) return;
     
-    if (item.sellIn < 0) {
-      item.quality = 0;
+    if (this.sellIn < 0) {
+      this.quality = 0;
       return;
     }
   
-    item.quality++;
-    if (item.sellIn < 10) {
-      item.quality++;
+    this.quality++;
+    if (this.sellIn < 10) {
+      this.quality++;
     }
-    if (item.sellIn < 5) {
-      item.quality++;
+    if (this.sellIn < 5) {
+      this.quality++;
     }
   }
 }
 
-class Conjured {
-  update(item) {
-    item.sellIn--;
-    if (item.quality === 0) return;
+class Conjured extends Item {
+  update() {
+    this.sellIn--;
+    if (this.quality === 0) return;
   
-    item.quality -= 2;
-    if (item.sellIn < 0) {
-      item.quality -= 2;
+    this.quality -= 2;
+    if (this.sellIn < 0) {
+      this.quality -= 2;
     }
   }
 }
@@ -77,19 +77,20 @@ class Shop {
       'Backstage passes to a TAFKAL80ETC concert': Backstage,
       'Conjured': Conjured,
     }
+    this.items = this.items.map(item => this.getItemType(item));
   }
 
   getItemType(item) {
-    if (this.itemTypes[item.name]) return new this.itemTypes[item.name]();
-    else return new Normal();
+    if (this.itemTypes[item.name]) return new this.itemTypes[item.name](item.name, item.sellIn, item.quality);
+    else {
+      return new Normal(item.name, item.sellIn, item.quality);
+    }
   }
-  
  
   updateQuality() {
     this.items.forEach(item => {
-      this.getItemType(item).update(item);
+      item.update();
     });
     return this.items;
   }
-
 }
